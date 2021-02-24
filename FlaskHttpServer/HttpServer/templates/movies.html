@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>羽修电影网</title>
+    <link rel="icon" href="{{ url_for('static',filename='img/favicon.ico') }}">
+    <a href="{{ url_for('home.index') }}">返回首页</a>
+    <style>
+    .box-out {
+      position:relative;
+      #border:solid 1px #555;
+      float:left;
+      padding:0px 10px;
+    }
+    .box-in {
+      position:absolute;
+      left:0;
+      top:0px;
+      right:0;
+      bottom:0;
+      margin:auto;
+    }
+    .title-in {
+      position:absolute;
+      top:240px;
+      left:0;
+      right:0;
+      margin:auto;
+      text-align:center;
+      height:50px;
+      line-height:50px;
+      font-size:18px;
+    }
+    </style>
+</head>
+<body>
+<div id="container">
+{% for movie in movies %}
+    <div class="box-out" style="height:280px;width:400px;">
+        <video class="movie box-in" data-file="{{movie['file']}}" width="400" height="225" controls >
+          <source src="static/movies/{{movie['file']}}" type="video/mp4" />
+        </video>
+        <p class="title-in" >{{movie['title']}}</p>
+    </div>
+{% endfor %}
+</div>
+<script>
+    // 调整页面水平居中
+    function resetContentPos(){
+       var div = document.getElementById("container"); // 获取主容器
+       var allWidth = document.body.clientWidth;  // 浏览器的宽度
+       var n = parseInt(allWidth / 420);  // 按浏览器的宽度计算，能显示几个视频
+       var contentWidth = n * 420; // 几个视频加起来的总宽度
+       div.style.marginLeft = (allWidth-contentWidth)/2+"px"; // 主容器往右移动一般的剩余宽度，对进行居中
+    }
+    (function(){
+        resetContentPos(); // 调整页面水平居中
+    })();
+    window.onresize = function(){
+        resetContentPos(); // 调整页面水平居中
+    }
+</script>
+</body>
+</html>
